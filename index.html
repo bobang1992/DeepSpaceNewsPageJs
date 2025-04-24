@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>News from Space</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header class="header">
+        <a href="index.html" id="logo">Domingos Deep Space News</a>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="mars-travel.html">Mars Travel</a> <!-- Mars Travel link -->
+            <a href="space-missions.html">Space Missions</a> <!-- Space Missions link -->
+            <a href="#">Contact</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Latest Articles</h2>
+            <ul>
+                <li><a href="https://www.nasa.gov/blogs/spacestation/2025/03/18/nasas-spacex-crew-9-return-continues-dragon-completes-deorbit-burn/" target="_blank">NASA's SpaceX Crew-9 Return</a></li>
+                <li><a href="https://www.bbc.com/news/articles/cx2g88y52y8o" target="_blank">BBC: Latest Space Discoveries</a></li>
+                <li><a href="https://www.bbc.com/news/articles/cg5yjqv5zv8o" target="_blank">BBC: The Future of Mars Colonization</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <section id="create-article">
+                <h2>Create New Article</h2>
+                <form id="article-form">
+                    <input type="text" id="title" placeholder="Title" required />
+                    <textarea id="content" placeholder="Content" required></textarea>
+                    <button type="submit">Add Article</button>
+                </form>
+            </section>
+
+            <section id="article-list">
+                <h2>Articles</h2>
+                <div id="articles-container">
+                    <!-- Articles will be displayed here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Domingos DeepSpace News. All rights reserved.</p>
+    </footer>
+
+    <div id="toast-container"></div>
+    <script src="script.js"></script>
+</body>
+</html>
