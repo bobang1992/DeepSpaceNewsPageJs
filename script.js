@@ -1,76 +1,55 @@
-// Fetch articles from localStorage and display them
-document.addEventListener("DOMContentLoaded", function() {
-    const articlesContainer = document.getElementById('articles-container');
-    
-    // Retrieve articles from localStorage
-    const articles = JSON.parse(localStorage.getItem('articles')) || [];
-
-    // Function to display articles
-    function displayArticles() {
-        articlesContainer.innerHTML = ''; // Clear container before re-rendering
-        articles.forEach((article, index) => {
-            const articleDiv = document.createElement('div');
-            articleDiv.classList.add('article-card');
-            articleDiv.innerHTML = `
-                <h3>${article.title}</h3>
-                <p>${article.content}</p>
-                <button class="delete-btn" onclick="deleteArticle(${index})">Delete</button>
-            `;
-            articlesContainer.appendChild(articleDiv);
-        });
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("article-form");
+    const articlesContainer = document.getElementById("articles");
+  
+    let articles = JSON.parse(localStorage.getItem("articles")) || [];
+  
+    function saveArticles() {
+      localStorage.setItem("articles", JSON.stringify(articles));
     }
-
-    // Call function to display articles
-    displayArticles();
-
-    // Event listener to add a new article
-    const articleForm = document.getElementById('article-form');
-    articleForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-        
-        const title = document.getElementById('title').value;
-        const content = document.getElementById('content').value;
-
-        if (title && content) {
-            const newArticle = {
-                title: title,
-                content: content
-            };
-
-            // Add new article to localStorage
-            articles.push(newArticle);
-            localStorage.setItem('articles', JSON.stringify(articles));
-
-            // Reset the form and re-display the articles
-            articleForm.reset();
-            displayArticles();
-            showToast('Article added successfully!');
-        }
+  
+    function renderArticles() {
+      articlesContainer.innerHTML = "";
+      articles.forEach((article, index) => {
+        const articleDiv = document.createElement("div");
+        articleDiv.className = "article-card";
+        articleDiv.innerHTML = `
+          <h3>${article.title}</h3>
+          <p><strong>Datum:</strong> ${article.date || "Okänd"}</p>
+          <p>${article.content.length > 60 ? article.content.slice(0, 60) + "..." : article.content}</p>
+          <button onclick="viewArticle(${index})">Läs mer</button>
+          <button class="delete-btn" onclick="deleteArticle(${index})">Radera</button>
+        `;
+        articlesContainer.appendChild(articleDiv);
+      });
+    }
+  
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const title = document.getElementById("title").value;
+      const date = document.getElementById("date").value;
+      const content = document.getElementById("content").value;
+  
+      const newArticle = { title, date, content };
+      articles.unshift(newArticle); // Nyaste först
+      saveArticles();
+      renderArticles();
+      form.reset();
     });
-
-    // Function to delete an article
-    window.deleteArticle = function(index) {
-        // Remove the article from the array
+  
+    window.deleteArticle = function (index) {
+      if (confirm("Är du säker på att du vill radera artikeln?")) {
         articles.splice(index, 1);
-
-        // Update localStorage
-        localStorage.setItem('articles', JSON.stringify(articles));
-
-        // Re-display the articles
-        displayArticles();
-        showToast('Article deleted successfully!');
+        saveArticles();
+        renderArticles();
+      }
     };
-
-    // Function to show a toast message
-    function showToast(message) {
-        const toastContainer = document.getElementById('toast-container');
-        const toast = document.createElement('div');
-        toast.classList.add('toast');
-        toast.textContent = message;
-        toastContainer.appendChild(toast);
-
-        setTimeout(() => {
-            toast.remove();
-        }, 3000);
-    }
-});
+  
+    window.viewArticle = function(index) {
+      localStorage.setItem("viewArticleIndex", index);
+      window.location.href = "article.html";
+    };
+  
+    renderArticles();
+  });
+  
