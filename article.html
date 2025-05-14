@@ -15,9 +15,7 @@
 
   <div class="container">
     <main class="main-content">
-      <div id="article-detail">
-        <!-- Innehåll laddas med JavaScript -->
-      </div>
+      <div id="article-detail"></div>
     </main>
   </div>
 
@@ -26,7 +24,6 @@
       const index = localStorage.getItem("viewArticleIndex");
       const articles = JSON.parse(localStorage.getItem("articles")) || [];
       const article = articles[index];
-
       const detailDiv = document.getElementById("article-detail");
 
       if (article) {
